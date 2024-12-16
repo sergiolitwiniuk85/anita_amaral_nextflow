@@ -1,38 +1,38 @@
 ```mermaid
 
 flowchart TD
+    Start([Start]) --- A([Falco: Pre-QC])
 
-
-    Start([Start]) --- A([Falco: Pre-QC
-    ])
-    A --- C([Snikt: Trimming])
+subgraph Quality-control
+    
     A --- D0([Porechop: Trimming])
     D0 --- D1([Falco: Pöst-QC])
     D1 --- D([nanoq: Stats & trimming])
 
-    D --- E(Taxonomic Classification:<br/> Kraken2 <br/> Centrifuge <br/> Wink <br/> Metamaps <br/> Megan-LR <br/> Malt <br/> Ganon <br/> Kaiju <br/> DIAMOND  )
+
+end
 
 
-    D --- G([Flye: Assembly])
-    D --- GS([Unicylcer: Assembly])
-
+    D ---- E(Taxonomic Classification:<br/> Kraken2 <br/> Centrifuge <br/> Wink <br/> Metamaps <br/> Megan-LR <br/> Malt <br/> Ganon <br/> Kaiju <br/> DIAMOND  )
+    D ---- G([Flye: Assembly])
+    D ---- GS([Unicylcer: Assembly])
 
 subgraph Assembly-LR
-    G --- J([Quast: Assembly QC])
+    G ---- J([Quast: Assembly QC])
 
-    G --- M([Medaka: Polishing_Colab])
-    M --- QL1([Quast: Post-QC])
-    M --- QL2([Busco: Completeness])
+    G ---- M([Medaka: Polishing_Colab])
+    M ---- QL1([Quast: Post-QC])
+    M ---- QL2([Busco: Completeness])
 
 end
 
 
 subgraph Annotation
-    M --- P([Prokka: Annotation])
-    P --- S0([CDS, rRNA, tRNA, tmRNA, 16s, misc_RNA]) 
+    M ---- P([Prokka: Annotation])
+    P ---- S0([CDS, rRNA, tRNA, tmRNA, 16s, misc_RNA]) 
 
-    P --- S
-    M --- S([AntiSMASH: Secondary Metabolite Prediction])
+    P ---- S
+    M ---- S([AntiSMASH: Secondary Metabolite Prediction])
 
 
     M --- P1([Mob-recon: Plasmids])
