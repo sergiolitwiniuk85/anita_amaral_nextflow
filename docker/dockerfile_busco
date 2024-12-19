@@ -1,0 +1,22 @@
+FROM ubuntu:latest
+
+# Update the package lists
+RUN apt-get update -y
+
+# Install required dependencies
+RUN apt-get install -y \
+    curl \
+    wget \
+    git \
+    make \
+    cmake \
+    build-essential \
+    libstdc++6
+
+# Download and install BUSCO
+WORKDIR /busco_wd
+RUN curl -L https://gitlab.com/ezlab/busco/-/archive/5.8.2/busco-5.8.2.tar.gz | tar -xzvf -
+RUN cd busco-5.8.2 && make install
+
+# Set the default command to run BUSCO
+CMD ["busco"]
