@@ -1,0 +1,52 @@
+# Base image with Docker dependencies
+FROM ubuntu:latest
+
+# Update package lists
+RUN apt-get update -y
+
+# Install Docker dependencies
+RUN apt-get install -y \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+# Add Docker repository's GPG key
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+# Add Docker repository
+RUN echo "deb [signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Update the package lists again
+RUN apt-get update -y
+
+# Install Docker Engine
+RUN apt-get install -y docker-ce docker-ce-cli containerd.io
+
+# Set working directory
+WORKDIR /app
+
+# Clone your project repository
+RUN git clone https://github.com/sergiolitwiniuk85/anita_amaral_nextflow.git
+
+# Build nested Docker images using D-i-D
+COPY docker/dockerfile_assembly_lr .
+RUN docker build -t assembly_lr .
+
+COPY docker/dockerfile_assembly_sr .
+RUN docker build -t assembly_sr .
+
+COPY docker/dockerfile_busco .
+RUN docker build -t busco .
+
+COPY docker/dockerfile_qc.txt .
+# No build needed for a plain text file
+
+# Install Nextflow (adjust according to your installation method)
+RUN curl -sL https://install.nextflow.io | bash
+
+# Set the default command
+CMD ["nextflow", "run"]
+
+# (Optional) Specify working directory for Nextflow workflows (replace with your workflow directory)
+# WORKDIR /app/workflows
