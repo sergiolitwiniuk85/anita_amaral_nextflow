@@ -12,18 +12,18 @@ services:
 
   assembly_lr:
     build:
-      context: ./dockerfiles
+      context: ./docker
       dockerfile: dockerfile_assembly_lr
     image: assembly_lr
 
   assembly_sr:
     build:
-      context: ./dockerfiles
+      context: ./docker
       dockerfile: dockerfile_assembly_sr
     image: assembly_sr
 
   busco:
     build:
-      context: ./dockerfiles
+      context: ./docker
       dockerfile: dockerfile_busco
     image: busco
