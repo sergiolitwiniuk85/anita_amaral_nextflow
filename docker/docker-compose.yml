@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  nextflow:
+    image: nextflow/nextflow:latest
+    volumes:
+      - ./workflows:/workflows
+      - ./results:/results
+    command: run main.nf
+    environment:
+      - NEXTFLOW_CONFIG=nextflow.config
+
+  assembly_lr:
+    build:
+      context: ./dockerfiles
+      dockerfile: dockerfile_assembly_lr
+    image: assembly_lr
+
+  assembly_sr:
+    build:
+      context: ./dockerfiles
+      dockerfile: dockerfile_assembly_sr
+    image: assembly_sr
+
+  busco:
+    build:
+      context: ./dockerfiles
+      dockerfile: dockerfile_busco
+    image: busco
