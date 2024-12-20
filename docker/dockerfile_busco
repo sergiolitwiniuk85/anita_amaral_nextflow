@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-# Update the package lists
+# Update package lists
 RUN apt-get update -y
 
 # Install required dependencies
@@ -12,13 +12,25 @@ RUN apt-get install -y \
     cmake \
     build-essential \
     libstdc++6 \
-    python3-pip
+    python3-pip \
+    python3-venv
 
-# Install Mamba
-RUN pip3 install mamba
+# Create a virtual environment
+RUN python3 -m venv /app/venv
 
-RUN mamba install -c conda-forge -c bioconda busco=5.8.2
+# Activate the virtual environment
+WORKDIR /app
+RUN . /app/venv/bin/activate
 
+# Upgrade pip within the virtual environment (optional)
+RUN /app/venv/bin/pip install --upgrade pip
+
+# Install mamba within the virtual environment
+RUN /app/venv/bin/pip install miniconda
+
+
+# Install Mamba and Busco within the virtual environment
+RUN /app/venv/bin/mamba install -c bioconda -c conda-forge busco=5.8.2
 
 # Set the default command to run BUSCO
 CMD ["busco"]
