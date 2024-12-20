@@ -10,6 +10,14 @@ services:
     environment:
       - NEXTFLOW_CONFIG=nextflow.config
 
+  qc:
+    build:
+      context: ./docker
+      dockerfile: dockerfile_qc
+    image: container_qc
+
+
+
   assembly_lr:
     build:
       context: ./docker
@@ -23,10 +31,11 @@ services:
     image: assembly_sr
 
   busco:
-    image: ezlabgva/busco:v5.8.2_cv1
+    image: busco:latest
     container_name: busco_container
     user: "${UID}:${GID}" # Ensure correct permissions
     working_dir: /busco_wd
     volumes:
       - .:/busco_wd # Mount the current directory
     entrypoint: ["busco"] # Set BUSCO as the default command
+
