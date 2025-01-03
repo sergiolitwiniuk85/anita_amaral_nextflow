@@ -3,6 +3,7 @@
 flowchart TD
     Start([Start]) --- A([Falco: Pre-QC])
 
+
 subgraph Quality-control
     
     A --- D0([Porechop: Trimming])

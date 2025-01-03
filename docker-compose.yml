@@ -10,6 +10,13 @@ services:
     environment:
       - NEXTFLOW_CONFIG=nextflow.config
 
+  qc:
+    build:
+      context: ./docker
+      dockerfile: dockerfile_qc
+    image: assembly_qc
+
+
   assembly_lr:
     build:
       context: ./docker

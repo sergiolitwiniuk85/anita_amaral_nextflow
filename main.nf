@@ -1,5 +1,20 @@
 #!/usr/bin/env nextflow
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 THREADS      = params.THREADS
 WORKFLOW     = workflow.workDir
 CACHEDIR     = params.CACHEDIR

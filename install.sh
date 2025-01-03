@@ -13,4 +13,4 @@ docker-compose build
 
 
 #download pgap
-curl -OL https://raw.githubusercontent.com/ncbi/pgap/refs/heads/master/scripts/pgap.py && chmod u+x pgap.py && ./pgap.py --update
+curl -OL https://raw.githubusercontent.com/ncbi/pgap/refs/heads/master/scripts/pgap.py && chmod u+x pgap.py && ./pgap.py --update && ./pgap.py 
