@@ -27,6 +27,7 @@ HEADCROP    = params.HEADCROP
 BARCODE_THRESHOLD  = params.BARCODE_THRESHOLD
 KINGDOM    = params.KINGDOM 
 MODEL      = params.MODEL
+EXAMPLE    = params. Example 
 
 
 println """\
