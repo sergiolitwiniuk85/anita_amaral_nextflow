@@ -1,10 +1,15 @@
 process nanoq{
 
+    container = 'assembly_qc:latest'
+
     tag "Nanoq"
-publishDir("outdir_nanoq/${name}_nanoq.txt", mode:'copy')
+
+publishDir = [
+            path: './results/nanoq',
+            mode: 'copy'
+        ]
 
     input:
-val(name)
 path (reads)
 
     output:
@@ -12,7 +17,7 @@ path "*nano.txt"
 
     script:
     """
-    nanoq -j -s -i ${reads}> ${name}_nano.txt
+    nanoq -j -s -i ${reads}> ${reads}_nano.txt
     
     """
 }
