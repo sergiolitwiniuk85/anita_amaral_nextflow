@@ -1,11 +1,11 @@
-process falco{
+process falco_post{
 
    container = 'container_qc:latest'
    
-   tag "Falco"
+   tag "Falco_post"
    
    publishDir = [
-            path: './results/falco',
+            path: './results/falco_post',
             mode: 'copy'
         ]
 
