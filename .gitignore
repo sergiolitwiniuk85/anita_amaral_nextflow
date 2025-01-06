@@ -1,0 +1,13 @@
+*.fastq
+*.fasta
+*.fastq.*
+*.fq 
+*.fa 
+*.txt 
+*.html
+*.gz 
+data/
+results\
+*.nextflow.log.*
+pgap.py
+.nextflow\
