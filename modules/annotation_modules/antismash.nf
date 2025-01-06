@@ -1,4 +1,4 @@
-process antismash_pore{ 
+process antismash{ 
 
     tag "Antismash"
 publishDir ("outdir_antismash_pore/${name}_antismash", mode: 'copy')

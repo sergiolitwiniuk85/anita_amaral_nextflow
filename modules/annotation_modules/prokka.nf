@@ -1,4 +1,4 @@
-process prokka_pore{ 
+process prokka{ 
 
         tag "Prokka"
 publishDir ("outdir_prokka_pore/${name}_prokka", mode: 'copy')

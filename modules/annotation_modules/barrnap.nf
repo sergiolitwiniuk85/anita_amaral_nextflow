@@ -1,4 +1,4 @@
-process barrnap_pore{ 
+process barrnap{ 
 
     tag "Barrnap_pore"
 publishDir ("outdir_barrnap_pore/${name}_barrnap", mode: 'copy')
