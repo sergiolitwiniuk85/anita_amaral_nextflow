@@ -1,4 +1,4 @@
-process flye_pore{
+process flye{
 
     tag "Flye_pore"
 publishDir("outdir_flye_pore/${name}_flye", mode:'copy')

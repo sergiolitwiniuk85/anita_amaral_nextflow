@@ -1,4 +1,4 @@
-process quast_pore{
+process quast{
 
     tag "Quast_pore"
     publishDir("outdir_quast_pore/${name}_quast", mode:'copy')

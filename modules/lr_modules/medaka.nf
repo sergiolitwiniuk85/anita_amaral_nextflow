@@ -1,4 +1,4 @@
-process medaka_pore{
+process medaka{
 
     tag "Medaka_pore"
 publishDir("outdir_medaka_pore/${name}_medaka.fasta", mode:'copy')
