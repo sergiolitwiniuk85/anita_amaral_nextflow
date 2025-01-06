@@ -2,6 +2,13 @@ process falco{
 
    container = 'assembly_qc:latest'
    
+   tag "Falco"
+   
+   publishDir = [
+            path: './results/falco',
+            mode: 'copy'
+        ]
+
     input:
    path (reads)
 
