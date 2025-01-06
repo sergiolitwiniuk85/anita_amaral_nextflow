@@ -1,19 +1,24 @@
 process flye{
+ 
+   container = 'assembly_lr:latest'
+    
+    tag "Flye"
 
-    tag "Flye_pore"
-publishDir("outdir_flye_pore/${name}_flye", mode:'copy')
+publishDir = [
+            path: './results/flye',
+            mode: 'copy'
+        ]
 
     input:
- val(name)
 path (reads) 
 
     output:
-path "${name}_flye/assembly.fasta", emit: flyepore_out
-path "${name}_flye/assembly_graph.*", emit: graphpore_out
-path "${name}_flye/assembly_info.txt", emit: infopore_out
+path "${reads}_flye/assembly.fasta", emit: flye_out
+path "${reads}_flye/assembly_graph.*", emit: graph_out
+path "${reads}_flye/assembly_info.txt", emit: info_out
 
     script:
     """
-    flye --nano-hq $reads -o ${name}_flye  -t 32 --meta 
+    flye --nano-hq $reads -o ${reads}_flye  -t 32 --meta 
     """
 }

@@ -70,17 +70,16 @@ workflow {
 
 falco(files)
 //nanoq(files)
-//fastqc(files)
-//kraken2(files)
 //porechop(files)
-//fastqc_snikt(snikt.out.snikt_out)
-//flye_pore(porechop.out.porechop_out)
-//medaka_pore(files, flye_pore.out.flyepore_out)
-//quast_pore( flye_pore.out.flyepore_out)
-//prokka_pore( flye_pore.out.flyepore_out)prokka_snikt(ch_name, flye_snikt.out.flyesnikt_out) 
-//antismash_nano(ch_name, flye_nano.out.flyenano_out)
-//antismash_pore(ch_name, flye_pore.out.flyepore_out)
-//antismash_snikt(ch_name, flye_snikt.out.flyesnikt_out)
+//kaiju(files)
+//kraken2(files)
+//flye(porechop.out.porechop_out)
+//medaka(files, flye.out.flye_out)
+//quast( flye.out.flye_out)
+//prokka(flye.out.flye_out)
+//antismash_nano(flye_nano.out.flyenano_out)
+//antismash_pore(flye_pore.out.flyepore_out)
+//antismash_snikt(flye_snikt.out.flyesnikt_out)
 
 
 }

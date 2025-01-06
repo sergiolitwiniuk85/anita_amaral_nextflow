@@ -1,6 +1,6 @@
 process falco{
 
-   container = 'assembly_qc:latest'
+   container = 'container_qc:latest'
    
    tag "Falco"
    
