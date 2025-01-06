@@ -5,7 +5,7 @@ nextflow.enable.dsl=2
 //Quality control
 //include {nanoq} from "./modules/qc_modules/nanoq.nf"
 include { falco_pre } from "./modules/qc_modules/falco_pre.nf"
-//include {porechop} from "./modules/qc_modules/porechop.nf"
+include {porechop} from "./modules/qc_modules/porechop.nf"
 include { falco_post } from "./modules/qc_modules/falco_post.nf"
 
 //Taxonomy
@@ -13,10 +13,10 @@ include { falco_post } from "./modules/qc_modules/falco_post.nf"
 //include{kaiju} from "./modules/tax_modules/kaiju.nf"
 
 //Long reads 
-//include {flye} from "./modules/lr_modules/flye.nf"
-//include {quast_prepolish} from "./modules/lr_modules/quast_prepolish.nf"
-//include{medaka} from "./modules/lr_modules/medaka.nf" //You can run on GPUs or with Google Colab
-//include {quast_postpolish} from "./modules/lr_modules/quast_postpolish.nf"
+include {flye} from "./modules/lr_modules/flye.nf"
+include {quast_prepolish} from "./modules/lr_modules/quast_prepolish.nf"
+include{medaka} from "./modules/lr_modules/medaka.nf" //You can run on GPUs or with Google Colab
+include {quast_postpolish} from "./modules/lr_modules/quast_postpolish.nf"
 //include {busco} from "./modules/lr_modules/busco.nf"
 
 //Short reads 
@@ -78,7 +78,7 @@ falco_post(porechop.out.porechop_out)
 //kraken2(files)
 flye(porechop.out.porechop_out)
 quast_prepolish(flye.out.flye_out)
-//medaka(files, flye.out.flye_out)
+medaka(files, flye.out.flye_out)
 quast_postpolish(medaka.out.medaka_out)
 //prokka(flye.out.flye_out)
 //antismash_nano(flye_nano.out.flyenano_out)
