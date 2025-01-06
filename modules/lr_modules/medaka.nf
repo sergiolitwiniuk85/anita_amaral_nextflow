@@ -9,7 +9,7 @@ path (reads)
 path (assembly)
 
     output:
-path "${name}_medaka_output/consensus.fasta", emit: medakasnikt_out
+path "${name}_medaka_output/consensus.fasta", emit: medaka_out
 
     script:
     """

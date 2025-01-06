@@ -14,8 +14,9 @@ include { falco_post } from "./modules/qc_modules/falco_post.nf"
 
 //Long reads 
 //include {flye} from "./modules/lr_modules/flye.nf"
-//include {quast} from "./modules/lr_modules/quast.nf"
+//include {quast_prepolish} from "./modules/lr_modules/quast_prepolish.nf"
 //include{medaka} from "./modules/lr_modules/medaka.nf" //You can run on GPUs or with Google Colab
+//include {quast_postpolish} from "./modules/lr_modules/quast_postpolish.nf"
 //include {busco} from "./modules/lr_modules/busco.nf"
 
 //Short reads 
@@ -71,13 +72,14 @@ workflow {
 
 falco_pre(files)
 //nanoq(files)
-//porechop(files)
+porechop(files)
 falco_post(porechop.out.porechop_out)
 //kaiju(files)
 //kraken2(files)
-//flye(porechop.out.porechop_out)
+flye(porechop.out.porechop_out)
+quast_prepolish(flye.out.flye_out)
 //medaka(files, flye.out.flye_out)
-//quast( flye.out.flye_out)
+quast_postpolish(medaka.out.medaka_out)
 //prokka(flye.out.flye_out)
 //antismash_nano(flye_nano.out.flyenano_out)
 //antismash_pore(flye_pore.out.flyepore_out)
