@@ -13,11 +13,12 @@ publishDir = [
 path (consensus) 
 
     output:
-path "${reads}_flye/assembly.fasta", emit: flye_out
+path "${reads}_busco", emit: busco_out
 
 
     script:
     """
-    flye --nano-hq $reads -o ${reads}_flye  -t 32 --meta 
+    busco -i $consensus -o ${reads}_busco -l <lineage> -m genome --cpu 4
+ 
     """
 }
