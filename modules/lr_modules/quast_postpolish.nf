@@ -17,7 +17,7 @@ path "${read}_quast", emit: quast_out
 
  script:
    """
-   quast.py -o ${read}_quast $assembly
+   quast.py -o ${read}_quast $consensus
 
    """
 }

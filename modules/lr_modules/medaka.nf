@@ -8,6 +8,7 @@ process medaka{
             path: './results/medaka',
             mode: 'copy'
         ]
+        
  input:
 path (reads)
 path (assembly)
