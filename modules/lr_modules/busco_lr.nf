@@ -1,11 +1,11 @@
-process busco{
+process busco_lr{
  
    container = 'busco:latest'
     
-    tag "Busco"
+    tag "Busco_lr"
 
 publishDir = [
-            path: './results/busco',
+            path: './results/busco_lr',
             mode: 'copy'
         ]
 
