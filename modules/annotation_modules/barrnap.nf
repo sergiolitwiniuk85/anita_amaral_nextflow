@@ -1,18 +1,23 @@
 process barrnap{ 
 
-    tag "Barrnap_pore"
-publishDir ("outdir_barrnap_pore/${name}_barrnap", mode: 'copy')
+    container = '__'
+    
+    tag "Barrnap"
+
+publishDir = [
+            path: './results/barrnap',
+            mode: 'copy'
+        ]
 
     input:
- val(name)
- path (assembly) 
+ path (consensus) 
 
     output:
-path "${name}_barrnap"
+path "${consensus}_barrnap"
 
     script:
     """
-   barrnap --kingdom ${params.KINGDOM} --threads ${params.THREADS} --outseq ${name}_barrnap ${assembly} 
+   barrnap --kingdom Bacteria --threads 4 --outseq ${consensus}_barrnap ${consensus} 
 
     """
     }
