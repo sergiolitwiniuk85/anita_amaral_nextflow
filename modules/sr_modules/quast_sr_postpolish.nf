@@ -1,11 +1,11 @@
-process quast_postpolish{
+process quast_sr_postpolish{
 
-    container = 'assembly_lr:latest'
+    container = 'assembly_sr:latest'
 
-    tag "Quast_postpolish"
+    tag "Quast_sr_postpolish"
 
     publishDir = [
-            path: './results/quast_postpolish',
+            path: './results/quast_sr_postpolish',
             mode: 'copy'
         ]
 
