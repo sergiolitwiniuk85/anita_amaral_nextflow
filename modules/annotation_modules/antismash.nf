@@ -1,17 +1,22 @@
 process antismash{ 
 
+    container = '__'
+    
     tag "Antismash"
-publishDir ("outdir_antismash_pore/${name}_antismash", mode: 'copy')
+
+publishDir = [
+            path: './results/antismash',
+            mode: 'copy'
+        ]
 
    input:
- val(name)
- path (assembly) 
+ path (consensus) 
 
     output:
-path "${name}_antismashsnikt"
+path "${name}_antismash"
 
     script:
     """
-       antismash -c 32 --genefinding-tool prodigal --output-dir ${name}_antismash $assembly   
+       antismash -c 32 --genefinding-tool prodigal --output-dir ${consensus}_antismash $consensus  
     """
     }
