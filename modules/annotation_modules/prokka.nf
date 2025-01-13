@@ -1,22 +1,27 @@
 process prokka{ 
 
-        tag "Prokka"
-publishDir ("outdir_prokka_pore/${name}_prokka", mode: 'copy')
+       container = '__'
+    
+    tag "Prokka"
+
+publishDir = [
+            path: './results/prokka',
+            mode: 'copy'
+        ]
 
 input:
- val(name)
-path (assembly)
+path (consensus)
 
     output:
-path "${name}_prokka/${name}.faa"
- path "${name}_prokka/${name}.err"
-path "${name}_prokka/${name}.ffn"
-path "${name}_prokka/${name}.gff"
-path "${name}_prokka/${name}.txt"
-path("${name}_prokka/*")
+path "${consensus}_prokka/${consensus}.faa"
+path "${consensus}_prokka/${consensus}.err"
+path "${consensus}_prokka/${consensus}.ffn"
+path "${consensus}_prokka/${consensus}.gff", emit: prokka_out
+path "${consensus}_prokka/${consensus}.txt"
+path("${consensus}_prokka/*")
 
     script:
     """
-    prokka --kingdom ${params.KINGDOM}  --cpus ${params.THREADS} --outdir ${name}_prokka --prefix ${name} ${assembly}
+    prokka --kingdom Bacteria  --cpus 4 --outdir ${consensus}_prokka  $consensus
     """
     }
