@@ -1,0 +1,65 @@
+# Use Ubuntu 22.04 as the base image
+FROM ubuntu:22.04
+
+# Set environment variables to avoid prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Actualizar el sistema y instalar dependencias básicas
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    wget \
+    curl \
+    git \
+    perl \
+    python3 \
+    python3-pip \
+    python3-dev \
+    make \
+    gcc \
+    g++ \
+    zlib1g-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libsqlite3-dev \
+    libperl-dev \
+    libbz2-dev \
+    liblzma-dev \
+    libssl-dev \
+    libgdbm-dev \
+    libncurses5-dev \
+    && apt-get clean
+
+# Instalar antiSMASH
+RUN wget -qO- https://github.com/ncbi/antismash/archive/refs/tags/v6.1.tar.gz | tar xz -C /opt/ && \
+    cd /opt/antismash-6.1 && \
+    pip3 install -r requirements.txt && \
+    make
+
+# Instalar Barrnap
+RUN git clone https://github.com/tseemann/barrnap.git /opt/barrnap && \
+    cd /opt/barrnap && \
+    make
+
+# Instalar tRNAscan-SE
+RUN wget http://lowelab.ucsc.edu/tRNAscan-SE/tRNAscan-SE-2.0.tar.gz -O /opt/tRNAscan-SE.tar.gz && \
+    cd /opt && \
+    tar -xzvf tRNAscan-SE.tar.gz && \
+    cd tRNAscan-SE && \
+    make
+
+# Instalar MOB-suite
+RUN git clone https://github.com/phillippy/mob-suite.git /opt/mob-suite && \
+    cd /opt/mob-suite && \
+    pip3 install -r requirements.txt
+
+# Instalar Prokka
+RUN wget https://github.com/tseemann/prokka/releases/download/v1.14.6/prokka-1.14.6-linux-x86_64.tar.gz -O /opt/prokka.tar.gz && \
+    cd /opt && \
+    tar -xzvf prokka.tar.gz && \
+    chmod +x prokka-1.14.6-linux-x86_64/prokka && \
+    ln -s /opt/prokka-1.14.6-linux-x86_64/prokka /usr/local/bin/prokka
+
+# Set default command to open a bash shell
+CMD ["/bin/bash"]
