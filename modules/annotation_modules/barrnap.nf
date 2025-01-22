@@ -1,13 +1,6 @@
 process barrnap{ 
 
-    container = '__'
-    
     tag "Barrnap"
-
-publishDir = [
-            path: './results/barrnap',
-            mode: 'copy'
-        ]
 
     input:
  path (consensus) 
@@ -17,7 +10,7 @@ path "${consensus}_barrnap"
 
     script:
     """
-   barrnap --kingdom Bacteria --threads 4 --outseq ${consensus}_barrnap ${consensus} 
+   barrnap --kingdom ${params.KINGDOM} --threads ${params.THREADS} --outseq ${consensus}_barrnap ${consensus} 
 
     """
     }

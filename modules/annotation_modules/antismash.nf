@@ -1,6 +1,6 @@
 process antismash{ 
 
-    container = '__'
+    container = 'annotation:latest'
     
     tag "Antismash"
 

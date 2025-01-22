@@ -1,6 +1,6 @@
 process mob_racon{ 
 
-    container = '__'
+    container = 'annotation:latest'
     
     tag "Mob_racon"
 

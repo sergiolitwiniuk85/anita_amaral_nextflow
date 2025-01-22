@@ -4,9 +4,9 @@ nextflow.enable.dsl=2
 
 //Quality control
 //include {nanoq} from "./modules/qc_modules/nanoq.nf"
-include { falco_pre } from "./modules/qc_modules/falco_pre.nf"
+include {falco_pre} from "./modules/qc_modules/falco.nf"
 include {porechop} from "./modules/qc_modules/porechop.nf"
-include { falco_post } from "./modules/qc_modules/falco_post.nf"
+include {falco_post} from "./modules/qc_modules/falco.nf"
 
 //Taxonomy
 //include{kraken2} from "./modules/tax_modules/kraken2.nf" 
@@ -14,15 +14,16 @@ include { falco_post } from "./modules/qc_modules/falco_post.nf"
 
 //Long reads 
 include {flye} from "./modules/lr_modules/flye.nf"
-include {quast_prepolish} from "./modules/lr_modules/quast_prepolish.nf"
+include {quast_lr_prepolish} from "./modules/lr_modules/quast_lr.nf"
 include{medaka} from "./modules/lr_modules/medaka.nf" //You can run on GPUs or with Google Colab
-include {quast_postpolish} from "./modules/lr_modules/quast_postpolish.nf"
+include {quast_lr_postpolish} from "./modules/lr_modules/quast_lr.nf"
 //include {busco} from "./modules/lr_modules/busco.nf"
 
 //Short reads 
 //include {unicylcer} from "./modules/sr_modules/unicycler.nf"
-//include {quast} from "./modules/sr_modules/quast.nf"
-//include{pilon} from "./modules/sr_modules/pilon.nf" //You can run on GPUs or with Google Colab
+//include {quast_sr_prepolish} from "./modules/sr_modules/quast_sr.nf"
+//include{pilon} from "./modules/sr_modules/pilon.nf" 
+//include {quast_sr_postpolish} from "./modules/sr_modules/quast_sr.nf"
 //include {busco} from "./modules/sr_modules/busco.nf"
 
 //Annotation
@@ -33,57 +34,69 @@ include {quast_postpolish} from "./modules/lr_modules/quast_postpolish.nf"
 //include{antismash} from "./modules/annotation_modules/antismash.nf"
 //include{barrnap} from "./modules/annotation_modules/barrnap.nf"
 
-
-
-/*println """\
-
-GENOMICS = +
-===================================
-System parameters:
-
-- PROJECTDIR            : projectDir
-- WORKFLOW              : WORKFLOW
-- CACHEDIR              : CACHEDIR
-
-Trimming and Adapter Removal parameters:
--FILTER                 : {params.FILTER}
--TRIM5                  : {params.TRIM5}
--TRIM3                  : {params.TRIM3} 
--LENGTH                 : {params.LENGTH} 
--HEADCROP               : {params.HEADCROP}
--BARCODE_THRESHOLD      : {params.BARCODE_THRESHOLD} 
-Polishing:
--MODEL                  : {params.MODEL}
-
-Annotation parameters:
--KINGDOM                : {params.KINGDOM}
-  
-         """
-         .stripIndent()
-
-
-*/
  
 files = Channel.fromPath( './data/*.fastq*')
 
 
-
 workflow {
 
+//Quality control
 falco_pre(files)
 //nanoq(files)
 porechop(files)
 falco_post(porechop.out.porechop_out)
+
+//Taxonomy
 //kaiju(files)
 //kraken2(files)
-flye(porechop.out.porechop_out)
-quast_prepolish(flye.out.flye_out)
-medaka(files, flye.out.flye_out)
-quast_postpolish(medaka.out.medaka_out)
-//prokka(flye.out.flye_out)
-//antismash_nano(flye_nano.out.flyenano_out)
-//antismash_pore(flye_pore.out.flyepore_out)
-//antismash_snikt(flye_snikt.out.flyesnikt_out)
 
+//Long read
+flye(porechop.out.porechop_out)
+quast_lr_prepolish(flye.out.flye_out)
+medaka(files, flye.out.flye_out)
+quast_lr_postpolish(medaka.out.medaka_out)
+busco_lr(medaka.out.medaka_out)
+
+//Short read
+unicycler(porechop.out.porechop_out)
+quast_sr_prepolish(unicycler.out.unicycler_out)
+pilon(files, unicycler.out.unicycler_out)
+quast_sr_postpolish(pilon.out.pilon_out)
+busco_sr(pilon.out.pilon_out)
+
+//Annotation
+pgap(medaka.out.medaka_out)
+//prokka(medaka.out.medaka_out)
+//antismash(medaka.out.medaka_out)
+barrnap(medaka.out.medaka_out)
+mob_recon(medaka.out.medaka_out)
+trnascan(medaka.out.medaka_out)
 
 }
+
+THREADS      = params.THREADS
+BARCODE_THRESHOLD  = params.BARCODE_THRESHOLD
+LINEAGE    = params.LINEAGE
+KINGDOM    = params.KINGDOM 
+MODEL      = params.MODEL
+
+
+println """\
+
+GENOMICS = +
+===================================
+System parameters:
+- THREADS               : ${params.THREADS}
+
+Trimming and Adapter Removal parameters:
+-BARCODE_THRESHOLD      : ${params.BARCODE_THRESHOLD} 
+
+Long Reads
+-Lineage                : ${params.LINEAGE}
+-MODEL                  : ${params.MODEL}
+
+Annotation parameters:
+-KINGDOM                : ${params.KINGDOM}
+  
+         """
+         .stripIndent()

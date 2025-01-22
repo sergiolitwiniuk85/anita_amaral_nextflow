@@ -1,13 +1,6 @@
 process prokka{ 
 
-       container = '__'
-    
     tag "Prokka"
-
-publishDir = [
-            path: './results/prokka',
-            mode: 'copy'
-        ]
 
 input:
 path (consensus)
@@ -22,6 +15,6 @@ path("${consensus}_prokka/*")
 
     script:
     """
-    prokka --kingdom Bacteria  --cpus 4 --outdir ${consensus}_prokka  $consensus
+    prokka --kingdom ${params.KINGDOM}  --cpus ${params.THREADS} --outdir ${consensus}_prokka  $consensus
     """
     }

@@ -10,14 +10,14 @@ process quast_sr_prepolish{
         ]
 
  input:
-path (consensus)
+path (read)
 
  output:
 path "${read}_quast", emit: quast_out
 
  script:
    """
-   quast.py -o ${read}_quast $consensus
+   quast.py -o ${read}_quast $read
 
    """
 }
