@@ -15,6 +15,8 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-dev \
     make \
+    prodigal \
+    hmmer \
     gcc \
     g++ \
     zlib1g-dev \
@@ -32,34 +34,22 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean
 
 # Instalar antiSMASH
-RUN wget -qO- https://github.com/ncbi/antismash/archive/refs/tags/v6.1.tar.gz | tar xz -C /opt/ && \
-    cd /opt/antismash-6.1 && \
-    pip3 install -r requirements.txt && \
-    make
+# Instalar antiSMASH
+RUN git clone --depth 1 https://github.com/antismash/antismash.git /opt/antismash && \
+    cd /opt/antismash && \
+    python3 setup.py install
 
 # Instalar Barrnap
 RUN git clone https://github.com/tseemann/barrnap.git /opt/barrnap && \
     cd /opt/barrnap && \
     make
 
-# Instalar tRNAscan-SE
-RUN wget http://lowelab.ucsc.edu/tRNAscan-SE/tRNAscan-SE-2.0.tar.gz -O /opt/tRNAscan-SE.tar.gz && \
-    cd /opt && \
-    tar -xzvf tRNAscan-SE.tar.gz && \
-    cd tRNAscan-SE && \
-    make
 
 # Instalar MOB-suite
-RUN git clone https://github.com/phillippy/mob-suite.git /opt/mob-suite && \
+RUN git clone https://github.com/phac-nml/mob-suite.git /opt/mob-suite && \
+    ls /opt/mob-suite && \
     cd /opt/mob-suite && \
-    pip3 install -r requirements.txt
-
-# Instalar Prokka
-RUN wget https://github.com/tseemann/prokka/releases/download/v1.14.6/prokka-1.14.6-linux-x86_64.tar.gz -O /opt/prokka.tar.gz && \
-    cd /opt && \
-    tar -xzvf prokka.tar.gz && \
-    chmod +x prokka-1.14.6-linux-x86_64/prokka && \
-    ln -s /opt/prokka-1.14.6-linux-x86_64/prokka /usr/local/bin/prokka
+    pip3 install .
 
 # Set default command to open a bash shell
 CMD ["/bin/bash"]
