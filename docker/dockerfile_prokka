@@ -1,0 +1,60 @@
+# Base image: Usamos Ubuntu como sistema base
+FROM ubuntu:latest 
+
+# Establecer variables de entorno para evitar preguntas durante la instalación
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Actualizar paquetes y herramientas necesarias para construir Prokka y sus dependencias
+FROM ubuntu:20.04
+
+# Install necessary packages for Prokka and BioPerl dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    wget \
+    curl \
+    git \
+    perl \
+    python3 \
+    libdatetime-perl \
+    libxml-simple-perl \
+    libdigest-md5-perl \
+    libdigest-perl-md5-perl \
+    libdata-dumper-simple-perl \
+    libjson-perl \
+    libyaml-perl \
+    liblist-moreutils-perl \
+    libfile-slurp-perl \
+    ncbi-blast+ \
+    hmmer \
+    barrnap \
+    prodigal \
+    default-jre \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Download and install BioPerl from GitHub
+RUN wget https://github.com/bioperl/bioperl-live/archive/refs/heads/master.zip \
+    && unzip master.zip \
+    && cd bioperl-live-master && perl Makefile.PL && make && make install
+
+# Descargar e instalar Prokka
+RUN wget https://github.com/tseemann/prokka/archive/v1.14.6.tar.gz -O /tmp/prokka.tar.gz && \
+    tar -xvzf /tmp/prokka.tar.gz -C /opt && \
+    mv /opt/prokka-1.14.6 /opt/prokka && \
+    ln -s /opt/prokka/bin/* /usr/local/bin/ && \
+    rm /tmp/prokka.tar.gz
+
+# Descargar tbl2asn manualmente
+RUN wget https://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/by_program/tbl2asn/linux.tbl2asn.gz -O /tmp/tbl2asn.gz && \
+    gunzip /tmp/tbl2asn.gz && \
+    chmod +x /tmp/tbl2asn && \
+    mv /tmp/tbl2asn /usr/local/bin/
+
+# Configurar Prokka
+ENV PATH="/opt/prokka/bin:$PATH"
+
+# Comprobar que Prokka y dependencias están instaladas correctamente
+RUN prokka --version
+
+# Comando por defecto
+CMD ["prokka", "--help"]

@@ -53,3 +53,15 @@ annotation:
       context: ./docker
       dockerfile: dockerfile_annotation
     image: annotation
+
+ taxonomy:
+    build:
+      context: ./docker
+      dockerfile: dockerfile_taxonomy
+    image: taxonomy
+
+    prokka:
+    build:
+      context: ./docker
+      dockerfile: dockerfile_prokka
+    image: prokka
