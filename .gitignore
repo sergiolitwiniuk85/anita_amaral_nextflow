@@ -8,6 +8,9 @@
 *.gz 
 data/
 results\
-*.nextflow.log.*
+.nextflow.log.*
 pgap.py
-.nextflow\
+\.nextflow
+.nextflow.log 
+.command.*
+\work
