@@ -13,11 +13,11 @@ publishDir = [
 path (reads)
 
     output:
-path "*nano.txt"
+path "${reads}_nanoQC"
 
     script:
     """
-    nanoq -j -s -i ${reads}> ${reads}_nano.txt
+    nanoQC -o ${reads}_nanoQC ${reads}
     
     """
 }

@@ -3,7 +3,7 @@
 nextflow.enable.dsl=2
 
 //Quality control
-//include {nanoq} from "./modules/qc_modules/nanoq.nf"
+include {nanoq} from "./modules/qc_modules/nanoq.nf"
 include {falco_pre} from "./modules/qc_modules/falco.nf"
 include {porechop} from "./modules/qc_modules/porechop.nf"
 include {falco_post} from "./modules/qc_modules/falco.nf"
@@ -43,7 +43,7 @@ workflow {
 //Quality control
 
 falco_pre(files)
-//nanoq(files)
+nanoq(files)
 porechop(files)
 falco_post(porechop.out.porechop_out)
 

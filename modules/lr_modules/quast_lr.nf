@@ -13,11 +13,11 @@ process quast_lr_prepolish{
 path (assembly)
 
  output:
-path "${read}_quast", emit: quast_out
+path "${assembly}_quast", emit: quast_out
 
  script:
    """
-   quast.py -o ${read}_quast $assembly
+   quast.py -o ${assembly}_quast $assembly
 
    """
 }
@@ -37,11 +37,11 @@ process quast_lr_postpolish{
 path (consensus)
 
  output:
-path "${read}_quast", emit: quast_out
+path "${consensus}_quast", emit: quast_out
 
  script:
    """
-   quast.py -o ${read}_quast $consensus
+   quast.py -o ${consensus}_quast $consensus
 
    """
 }

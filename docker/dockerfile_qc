@@ -23,7 +23,8 @@ RUN git clone https://github.com/rrwick/Porechop.git && \
     python3 setup.py install
 
 # Install NanoQ
-RUN pip install nanoQC
+RUN pip install  nanoQC
+
 
 # Install Falco
 RUN wget https://github.com/samtools/htslib/releases/download/1.17/htslib-1.17.tar.bz2 && \
