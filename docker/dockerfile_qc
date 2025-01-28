@@ -18,7 +18,9 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Porechop
-RUN pip install porechopx
+RUN git clone https://github.com/rrwick/Porechop.git && \
+    cd Porechop && \
+    python3 setup.py install
 
 # Install NanoQ
 RUN pip install nanoQC
