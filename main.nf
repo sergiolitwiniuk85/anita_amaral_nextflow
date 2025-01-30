@@ -6,7 +6,7 @@ nextflow.enable.dsl=2
 include {nanoq} from "./modules/qc_modules/nanoq.nf"
 include {falco_pre} from "./modules/qc_modules/falco.nf"
 include {porechop} from "./modules/qc_modules/porechop.nf"
-include {falco_post} from "./modules/qc_modules/falco.nf"
+include {fastqc} from "./modules/qc_modules/fastqc.nf"
 
 //Taxonomy
 include{kraken2} from "./modules/tax_modules/kraken2.nf" 
@@ -42,10 +42,10 @@ workflow {
 
 //Quality control
 
-falco_pre(files)
-nanoq(files)
+//falco_pre(files)
+//nanoq(files)
 porechop(files)
-falco_post(porechop.out.porechop_out)
+fastqc(porechop.out.porechop_out)
 
 //Taxonomy
 
