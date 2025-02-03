@@ -8,7 +8,7 @@ docker pull ncbi/pgap-dev:2024-12-19.build5922
 docker tag ncbi/pgap-dev:2024-12-19.build5922 pgap:latest
 
 # Build the Docker Compose services
-docker-compose build
+docker compose build
 
 
 

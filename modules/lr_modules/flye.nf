@@ -19,7 +19,7 @@ path "${reads}_flye/assembly_info.txt", emit: info_out
 
     script:
     """
-    flye --nano-hq $reads -o ${reads}_flye  -t 8 --meta 
+    flye --nano-hq $reads -o ${reads}_flye  -t 4 --meta 
     
     """
 }

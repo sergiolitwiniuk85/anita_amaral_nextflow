@@ -14,3 +14,6 @@ pgap.py
 .nextflow.log 
 .command.*
 \work
+*.tex
+*.tsv
+quast.log

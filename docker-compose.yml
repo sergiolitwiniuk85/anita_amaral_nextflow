@@ -48,20 +48,20 @@ services:
       - .:/pgap # Mount the current directory
     entrypoint: ["pgap"] # Set pgap as the default command
     
-annotation:
+  annotation:
     build:
       context: ./docker
       dockerfile: dockerfile_annotation
     image: annotation
 
- taxonomy:
+  taxonomy:
     build:
       context: ./docker
       dockerfile: dockerfile_taxonomy
     image: taxonomy
 
-    prokka:
-    build:
-      context: ./docker
-      dockerfile: dockerfile_prokka
-    image: prokka
+#  prokka:
+#   build:
+ #     context: ./docker
+  #    dockerfile: dockerfile_prokka
+   # image: prokka
