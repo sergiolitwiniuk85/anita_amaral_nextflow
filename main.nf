@@ -43,7 +43,7 @@ workflow {
 //Quality control
 
 //falco_pre(files)
-//nanoq(files)
+nanoq(files)
 porechop(files)
 fastqc(porechop.out.porechop_out)
 
@@ -54,9 +54,9 @@ fastqc(porechop.out.porechop_out)
 
 //Long read
 
-//flye(porechop.out.porechop_out)
-//quast_lr_prepolish(flye.out.flye_out)
-//medaka(files, flye.out.flye_out)
+flye(porechop.out.porechop_out)
+quast_lr_prepolish(flye.out.flye_out)
+medaka(files, flye.out.flye_out)
 //quast_lr_postpolish(medaka.out.medaka_out)
 //busco_lr(medaka.out.medaka_out)
 

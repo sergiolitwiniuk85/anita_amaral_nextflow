@@ -4,7 +4,7 @@ FROM ubuntu:22.04
 # Set environment variables to avoid prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update and install system dependencies
+# Actualizar e instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
     python3 python3-pip \
     wget curl git \
@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y \
     libncurses5-dev \
     cmake \
     ncbi-blast+ \
-    docker.io \
+    mummer \
+    samtools \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Flye
@@ -30,10 +31,13 @@ RUN pip install dnaapler
 RUN pip install quast
 
 # Install Medaka
-RUN pip install medaka-cpu
+RUN pip install pyabpoa
+RUN pip install --no-cache-dir --no-input --no-compile --use-deprecated=legacy-resolver \
+    --index-url https://pypi.tuna.tsinghua.edu.cn/simple \
+    medaka-cpu --extra-index-url https://download.pytorch.org/whl/cpu
 
-# Set up working directory
-WORKDIR /busco_wd
+# Crear un enlace simbólico para que 'python' apunte a 'python3'
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 # Set default command to open a bash shell
 CMD ["bash"]
