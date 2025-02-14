@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libssl-dev \
     libncurses5-dev \
+    r-base \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Instala Porechop
@@ -27,7 +28,7 @@ RUN git clone https://github.com/rrwick/Porechop.git /opt/Porechop && \
 # Instala NanoQC
 RUN pip install nanoQC
 
-#Descargar xvfb
+# Descargar xvfb
 RUN apt-get update && apt-get install -y xvfb
 
 # Descarga e instala FastQC
@@ -54,5 +55,10 @@ RUN wget https://github.com/smithlabcode/falco/releases/download/v1.2.5/falco-1.
     ./configure && make && make install && \
     rm -rf /tmp/falco*
 
+# Instala Snikt.R
+RUN R -e "install.packages('remotes', repos='https://cloud.r-project.org/')"
+RUN R -e "remotes::install_github('c-arthurs/Snikt')"
+
 # Comando por defecto: bash interactivo
 CMD ["/bin/bash"]
+

@@ -1,17 +1,22 @@
 process medaka{
 
     tag "Medaka"
-        
+
+  publishDir = [
+            path: './results/medaka',
+            mode: 'copy'
+        ]
+  
  input:
 path (reads)
 path (assembly)
 
     output:
-path "${reads}_medaka_output/consensus.fasta", emit: medaka_out
+path "medaka_output/consensus.fasta", emit: medaka_out
 
     script:
     """
-medaka_consensus -d $assembly -i $reads \ -o ${reads}_medaka_output -t ${params.THREADS} -m ${params.MODEL}
+medaka_consensus -i $reads -d $assembly  \ -o medaka_output -t ${params.THREADS} -m ${params.MODEL}
 
     """
 }
