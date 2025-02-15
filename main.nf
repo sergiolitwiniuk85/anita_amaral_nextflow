@@ -6,6 +6,7 @@ nextflow.enable.dsl=2
 include {nanoq} from "./modules/qc_modules/nanoq.nf"
 include {falco_pre} from "./modules/qc_modules/falco.nf"
 include {porechop} from "./modules/qc_modules/porechop.nf"
+include {snikt} from "./modules/qc_modules/snikt.nf"
 include {fastqc} from "./modules/qc_modules/fastqc.nf"
 
 //Taxonomy
@@ -44,7 +45,8 @@ workflow {
 
 //falco_pre(files)
 //nanoq(files)
-porechop(files)
+//porechop(files)
+snikt (files)
 //fastqc(porechop.out.porechop_out)
 
 //Taxonomy
@@ -54,7 +56,7 @@ porechop(files)
 
 //Long read
 
-flye(porechop.out.porechop_out)
+flye(snikt.out.snikt_out)
 //quast_lr_prepolish(flye.out.flye_out)
 medaka(files, flye.out.flye_out)
 //quast_lr_postpolish(medaka.out.medaka_out)
@@ -84,7 +86,9 @@ BARCODE_THRESHOLD  = params.BARCODE_THRESHOLD
 LINEAGE    = params.LINEAGE
 KINGDOM    = params.KINGDOM 
 MODEL      = params.MODEL
-
+FILTER      = params.FILTER
+TRIM5      = params.TRIM5
+TRIM3      = params.TRIM3
 
 println """\
 
@@ -95,6 +99,9 @@ System parameters:
 
 Trimming and Adapter Removal parameters:
 -BARCODE_THRESHOLD      : ${params.BARCODE_THRESHOLD} 
+-FILTER                 : ${params.FILTER}
+-TRIM5                  : ${params.TRIM5}
+-TRIM3                  : ${params.TRIM3}
 
 Long Reads
 -LINEAGE                : ${params.LINEAGE}
