@@ -117,7 +117,7 @@ results/
 - All module-specific dependencies are handled through containers
 
 ## Author
-Ana Amaral & Sergio Litwiniuk,
+Ana Amaral & Sergio Litwiniuk 2024,
 GIGA-lab
 
 ## License
